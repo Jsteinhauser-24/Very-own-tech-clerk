@@ -4,7 +4,7 @@ const app = express();
 const dbData = require('./db/db.json');
 const PORT = 3001;
 const fs = require('fs');
-
+const uuid = require('uuid')
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -19,23 +19,32 @@ app.get('/notes', (req, res) =>
 app.get('/api/notes', (req, res) => res.json(dbData));
 //post /api/notes should receive new note to save on body, add to db.json then return new note
 app.post('/api/notes', (req, res) => {
-
+    //res.json(`${req.method} request received`);
+    //console.info(req.rawHeaders);
     console.info(`${req.method} request received to add note`);
     const { noteTitle, noteText } = req.body;
     if (noteTitle && noteText) {
         const newNote = {
             noteTitle,
             noteText,
+            note_id: uuid(),
         };
 
-        console.log(result);
-        const noteString = JSON.stringify(newNote)
-        fs.writeFile(`./db/${newNote.noteTitle}.json`, noteString, (err) =>
-            err
-                ? console.error(err)
-                : console.log(`${newNote.noteTitle} has been written to JSON file`)
-        );
+        fs.readFile('./db/dbData.json', 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+            } else {
+                const parsedNotes = JSON.parse(data);
 
+                parsedNotes.push(newNote)
+
+                const noteString = JSON.stringify(newNote)
+                fs.writeFile(`./db/${newNote.noteTitle}.json`, noteString, (err) =>
+                    err
+                        ? console.error(err)
+                        : console.log(`${newNote.noteTitle} has been written to JSON file`));
+            }
+        })
         const result = {
             status: 'success',
             body: newNote,
@@ -46,7 +55,6 @@ app.post('/api/notes', (req, res) => {
     } else {
         res.status(500).json('Error in posting review');
     }
-
 });
 
 
