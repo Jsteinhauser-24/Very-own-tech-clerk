@@ -11,11 +11,11 @@
 ## DESCRIPTION
 It is a note taking app that saves your notes and deletes them with the click of a button. it uses Express.
 ## INSTALLATION
-It was supposed to go through Heroku but I had issues with my login and I could not log in to upload it. I should be able to log into heroku in 2 business days, just waiting on a recovery code they are going to send me.
+Installed through Heroku.
 ## USAGE
 You write the title and text in the note app and express sends the data to db.json. the save button saves the note, the plus  button starts a new note and the trashcan deletes the notes.
 ## CREDITS
-James Steinhauser
+I worked with Jacob Hupfer whenever I got stuck in this assignment.
 ## TESTS
 No tests involves, just using the app.
 ## LICENSE
